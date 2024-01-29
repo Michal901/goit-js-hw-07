@@ -3,20 +3,30 @@ import { galleryItems } from "./gallery-items.js";
 
 const gallery = document.querySelector(".gallery");
 
-const addItems = (e) => {
-  const galleryHTML = galleryItems
+const createItems = (images) =>
+  images
     .map(
       (image) =>
-        `<div class="gallery__item"><a class="gallery__link" href="${image.original}"><img class="gallery__image" src="${image.preview}" data-source = "${image.original}"  alt="${image.description}"></a></div> `
+        `<li  class="gallery__item">
+         <a   "gallery__link" href="${image.original}">
+         <img
+            class="gallery__image"
+            src="${image.preview}"
+            alt="${image.description}"
+            />
+         </a>
+         </li>`
     )
     .join("");
-  gallery.insertAdjacentHTML("beforeend", galleryHTML);
-};
 
-addItems();
+const addItems = createItems(galleryItems);
 
-gallery.addEventListener("click", (e) => {
-  e.preventDefault();
+gallery.innerHTML = addItems;
+
+const lightbox = new SimpleLightbox(".gallery a", {
+  captions: true,
+  captionsData: "alt",
+  captionPosition: "bottom",
+  captionType: "attr",
+  captionDelay: 250,
 });
-
-console.log(galleryItems);
